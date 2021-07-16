@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+    <style type="text/css">
+    /* Bordered form */
+    form {
+        border: 3px solid #f1f1f1;
+        margin: 20px;
+    }
+
+    /* Full-width inputs */
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 12px 20px; 
+        /* padding: 12px 10px 5px 2px; */
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    /* Set a style for all buttons */
+    button {
+        background-color: #04AA6D;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    #error-message{
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: red;
+        display: none;
+    }
+    </style>
+    <script>
+        // function SubmitLoginForm(){
+        //     let password = document.querySelector("input[type='password']");
+        //     if(password.value==""){
+        //         //console.log("Password is empty")
+        //         let erroMessageDiv=document.getElementById("error-message");
+        //         erroMessageDiv.style.display="inherit";
+        //     }else{
+        //         console.log("Password is NOT empty")
+        //     }
+        // }
+    </script>
+</head>
+<body >
+    <div id="my-vue-app">
+        <form action="my-php-script.php" method="POST">
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" />
+    
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" />
+            <!-- <button type="button" onclick="SubmitLoginForm()">Login</button> -->
+            <button type="button" v-on:click="OnSubmit">Login</button>
+            <div id="error-message">{{errorMessage}}</div>
+        </form>
+    </div>
+    <script>
+        var myVueApp = new Vue({
+            el:"#my-vue-app",
+            data:{
+                errorMessage:"Password is empty - VueJS"
+            },
+            methods:{
+                OnSubmit(){
+                    console.log("Hello VueJS")
+                    let password = document.querySelector("input[type='password']");
+                    if(password.value==""){
+                        //console.log("Password is empty")
+                        let erroMessageDiv=document.getElementById("error-message");
+                        erroMessageDiv.style.display="inherit";
+                    }else{
+                        console.log("Password is NOT empty")
+                    }
+                }
+            }
+        }
+        )
+    </script>
+</body>
+</html>
