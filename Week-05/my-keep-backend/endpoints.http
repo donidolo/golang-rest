@@ -3,10 +3,13 @@
 ###
 GET {{BASE_URL}}/ping 
 ###
+GET {{BASE_URL}}/note/0202c34a-e6bc-11eb-9a1d-a85e4537ab5a
+
+###
 POST {{BASE_URL}}/note 
 Content-Type: application/json
 
 {
-    "title":"Belanja Harian",
-    "content": "Susu"
+    "title":"Week 05",
+    "content": "Refactor db package"
 }
