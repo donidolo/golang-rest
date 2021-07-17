@@ -3,12 +3,12 @@
 ###
 GET {{BASE_URL}}/ping 
 ###
-GET {{BASE_URL}}/note/0202c34a-e6bc-11eb-9a1d-a85e4537ab5a
+GET {{BASE_URL}}/notes/0202c34a-e6bc-11eb-9a1d-a85e4537ab5a
 ###
-GET {{BASE_URL}}/note
+GET {{BASE_URL}}/notes
 
 ###
-POST {{BASE_URL}}/note 
+POST {{BASE_URL}}/notes 
 Content-Type: application/json
 
 {

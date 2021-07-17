@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/url"
 	"time"
 
 	"my-keep-backend/db"
@@ -41,10 +42,33 @@ func main() {
 */
 var dbClient db.Db
 
+func CORSMiddleware(allowOrigin string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		origin, err := url.PathUnescape(c.Query("origin"))
+		if err == nil && origin != "" {
+			allowOrigin = origin
+		}
+		c.Writer.Header().Set("Access-Control-Allow-Origin", allowOrigin)
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Max-Age, Accept, Authorization, Content-Type, Content-Length, X-CSRF-Token, Token, session, Origin, Host, Connection, Accept-Encoding, Accept-Language, X-Requested-With")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Request.Header.Del("Origin")
+
+		c.Next()
+	}
+}
+
 func main() {
 	dbClient = db.Db{}
 	dbClient.Connect("postgres", "P@ssw0rd", "localhost", 5432, "keep", "postgres")
 	route := gin.Default()
+	route.Use(CORSMiddleware(""))
 	route.GET("/ping", func(c *gin.Context) {
 		username := "tanto"
 		print(username)
@@ -82,7 +106,7 @@ func main() {
 		}
 
 	})
-	route.GET("/notes/", func(c *gin.Context) {
+	route.GET("/notes", func(c *gin.Context) {
 		//TODO: pagination
 		var notes []models.Note
 		err := dbClient.Conn.Find(&notes)
@@ -96,5 +120,5 @@ func main() {
 
 	})
 
-	route.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	route.Run(":8081") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
