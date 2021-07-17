@@ -54,7 +54,7 @@ func main() {
 		})
 	})
 
-	route.POST("/note", func(c *gin.Context) {
+	route.POST("/notes", func(c *gin.Context) {
 		var note models.Note
 		var err error
 		newId, _ := uuid.NewUUID()
@@ -69,7 +69,7 @@ func main() {
 			c.JSON(200, note)
 		}
 	})
-	route.GET("/note/:id", func(c *gin.Context) {
+	route.GET("/notes/:id", func(c *gin.Context) {
 		id := c.Param("id")
 		var note models.Note
 		_, err := dbClient.Conn.Where(builder.Eq{"id": id}).Get(&note)
@@ -79,6 +79,19 @@ func main() {
 			})
 		} else {
 			c.JSON(200, note)
+		}
+
+	})
+	route.GET("/notes/", func(c *gin.Context) {
+		//TODO: pagination
+		var notes []models.Note
+		err := dbClient.Conn.Find(&notes)
+		if err != nil {
+			c.JSON(503, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			c.JSON(200, notes)
 		}
 
 	})
